@@ -1,0 +1,20 @@
+<section>
+		<input type="button" value="Add Company" (click)="addCompany()"/><br/><br/>
+		<table>
+		  <tr>
+		    <th>ID</th>
+			<th>Company</th>
+			<th>Contact</th>
+			<th>Country</th>
+			<th width="10%">Actions</th>
+		  </tr>
+		  <tr *ngFor="let company of companies">
+		    <td>{{company.id}}</td>
+			<td>{{company.company}}</td>
+			<td>{{company.contact}}</td>
+			<td>{{company.country}}</td>
+			<td><input type="button" value="Edit"/>&nbsp;<input type="button" value="Delete"/></td>
+		  </tr>
+		</table>
+	</section>
+
