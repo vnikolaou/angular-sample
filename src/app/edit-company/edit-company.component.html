@@ -1,13 +1,14 @@
 	<section>
-		<h2>Add Company</h2>
+		<h2>Edit Company</h2>
 		<hr/>
 		<br/><br/>
 	</section>
 
 	<section>
-
+		  <label>ID:</label>&nbsp;<span>{{company.id}}</span>
+		  <br/><br/>		
 		  <label for="company">Company Name:</label><br/>
-		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company">
+		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company" >
 		  <br/><br/>
 		  <label for="country">Country:</label><br/>
 		  <input type="text" id="country" [(ngModel)]="company.country" placeholder="Country">
@@ -15,6 +16,5 @@
 		  <label for="contact">Contact Person:</label><br/>
 		  <input type="text" id="contact" [(ngModel)]="company.contact" placeholder="Contact">
 		  <br/><br/>		  
-		  <input type="button" value="Submit" (click)="insertCompany()">&nbsp;<input type="button" value="Cancel" (click)="cancel()"/>
-
+		  <input type="button" value="Submit" (click)="updateCompany()">&nbsp;<input type="button" value="Cancel" value="Cancel" (click)="cancel()"/>
 	</section>

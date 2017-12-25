@@ -1,4 +1,10 @@
 <section>
+	<h2>List of companies</h2>
+	<hr/>
+	<br/><br/>
+</section>
+
+<section>
 		<input type="button" value="Add Company" (click)="addCompany()"/><br/><br/>
 		<table>
 		  <tr>
@@ -13,7 +19,7 @@
 			<td>{{company.company}}</td>
 			<td>{{company.contact}}</td>
 			<td>{{company.country}}</td>
-			<td><input type="button" value="Edit"/>&nbsp;<input type="button" value="Delete"/></td>
+			<td><input type="button" value="Edit" (click)="editCompany(company.id)"/>&nbsp;<input type="button" value="Delete" (click)="deleteCompany(company.id)"/></td>
 		  </tr>
 		</table>
 	</section>

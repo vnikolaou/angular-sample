@@ -8,6 +8,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyService } from './company.service';
 import { AddCompanyComponent } from './add-company/add-company.component';
+import { EditCompanyComponent } from './edit-company/edit-company.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MessageService } from './message.service';
 
 @NgModule({
   imports: [
@@ -19,9 +22,11 @@ import { AddCompanyComponent } from './add-company/add-company.component';
   declarations: [
     AppComponent,
     CompaniesComponent,
-    AddCompanyComponent
+    AddCompanyComponent,
+    EditCompanyComponent,
+    MessagesComponent
   ],
-  providers: [ CompanyService],
+  providers: [ CompanyService, MessageService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

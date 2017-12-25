@@ -6,10 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = '';
-  
-  onGetTitle(title: string) :void {
-    console.log("title=" + title);
-    this.title = title;
-  }
+
 }

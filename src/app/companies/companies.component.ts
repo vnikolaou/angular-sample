@@ -9,15 +9,12 @@ import { Company } from '../company';
   styleUrls: ['./companies.component.css']
 })
 export class CompaniesComponent implements OnInit {
-  @Output() title: EventEmitter<string> = new EventEmitter<string>();
-  
   companies: Company[];
 
   constructor(private companyService: CompanyService, private router: Router) { }
 
   ngOnInit() {
 	 this.getCompanies();
-	 this.title.emit('List of Companies');
   }
   
   getCompanies(): void {
@@ -27,5 +24,15 @@ export class CompaniesComponent implements OnInit {
   
   addCompany(): void {
 	 this.router.navigate(['/add-company']);
+  }
+
+  editCompany(id: number): void {
+	 this.router.navigate(['/edit-company/' + id]);
+  }
+
+  deleteCompany(id: number): void {
+     this.companyService.deleteCompany(id)
+     	.subscribe(result => { console.log("company was deleted: " + result)});
+     this.router.navigate(['/companies']); 
   }
 }
