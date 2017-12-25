@@ -17,6 +17,7 @@ export class EditCompanyComponent implements OnInit {
   }
 
   ngOnInit() {
+     this.company = {};
      this.getCompany();
   }
 

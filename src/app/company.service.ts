@@ -1,59 +1,73 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Company } from './company';
-import { COMPANIES } from './mock-companies';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CompanyService {
+  private companiesUrl = 'api/companies';  // URL to web api
 
-  constructor(private messageService: MessageService) { }
+  const httpOptions = {
+	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
+  constructor(private http: HttpClient, private messageService: MessageService) { }
 	
 	getCompanies(): Observable<Company[]> {
-	  return of(COMPANIES);
+           return this.http.get<Company[]>(this.companiesUrl).
+	    	pipe(
+ 	      	 //   tap(companies => this.messageService.showMessage('Companies have been found')),
+	      	    catchError(this.handleError('getCompanies', []))
+	        );
 	}	
 
-	insertCompany(company: Company): Observable<boolean> {
-	  let id: number = COMPANIES[COMPANIES.length-1].id + 1;
-	  company.id = id;
-	  COMPANIES.push(company);
-
-	  this.messageService.showMessage('The company ' + company.company + ' was added successfully');
-	  return of(true);
+	insertCompany(company: Company): Observable<any> {
+	  return this.http.post<Company>(this.companiesUrl, company, this.httpOptions).
+		pipe(
+		    tap((company: Company) => this.messageService.showMessage('The company ' + company.company + ' was added successfully')),
+		    catchError(this.handleError<Company>('insertCompany'))
+	  	);
 	}
 
 	getCompany(id: number): Observable<Company> {
-	  for (let c of COMPANIES) {
-   	    if(c.id == id) {
- 		return of(c);
-	    }
-	  }
-	  return of(null);
+	  const url = `${this.companiesUrl}/${id}`;
+	  return this.http.get<Company>(url).
+	    	pipe(
+		    tap(_ => this.messageService.showMessage(`Company id = ${id} was found`)),
+		    catchError(this.handleError<Company>(`getCompany id=${id}`))
+	    	);
 	}
 
-	deleteCompany(id: number): Observable<boolean> {
-	  for(let i=0; i<COMPANIES.length; i++) {
-   	    if(COMPANIES[i].id == id) {
-                let name = COMPANIES[i].company;
-                COMPANIES.splice(i, 1);
-		this.messageService.showMessage('The company ' + name + ' was deleted successfully');
- 		return of(true);
-	    }
-	  }	
-	  return of(false);
+	deleteCompany(company: Company): Observable<any> {
+	  const url = `${this.companiesUrl}/${company.id}`;
+
+	  return this.http.delete<Company>(url, this.httpOptions).
+		pipe(
+		    tap(_ => this.messageService.showMessage('The company ' + company.company + ' was deleted successfully')),
+		    catchError(this.handleError<Company>('deleteCompany'))
+	  	);
 	}
 
-	updateCompany(company: Company): Observable<boolean> {
-	  for (let c of COMPANIES) {
-   	    if(c.id == company.id) {
- 		c.company = company.company;
-		c.country = company.country;
-		c.contact = company.contact;
+	updateCompany(company: Company): Observable<any> {
+	  return this.http.put(this.companiesUrl, company, this.httpOptions).
+	  	pipe(
+		    tap(_ => this.messageService.showMessage('The company ' + company.company + ' was updated successfully')),
+		    catchError(this.handleError<any>('updateCompany'))
+		);
+	}	
 
-		this.messageService.showMessage('The company ' + c.company + ' was updated successfully');
-	    }
-	  }
-	  return of(true);
-	}		
+	private handleError<T> (operation = 'operation', result?: T) {
+	  return (error: any): Observable<T> => {
+	    // TODO: send the error to remote logging infrastructure
+	    console.error(error); // log to console instead
+	 
+	    this.messageService.showMessage(`${operation} failed: ${error.message}`);
+	 
+	    // Let the app keep running by returning an empty result.
+	    return of(result as T);
+	  };
+	}	
 }

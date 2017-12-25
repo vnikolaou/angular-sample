@@ -9,19 +9,19 @@ import { Company } from '../company';
   styleUrls: ['./companies.component.css']
 })
 export class CompaniesComponent implements OnInit {
-  companies: Company[];
+  private companies: Company[];
 
   constructor(private companyService: CompanyService, private router: Router) { }
 
   ngOnInit() {
-	 this.getCompanies();
+        this.getCompanies();
   }
-  
+
   getCompanies(): void {
      this.companyService.getCompanies()
         .subscribe(companies => this.companies = companies);
   }  
-  
+
   addCompany(): void {
 	 this.router.navigate(['/add-company']);
   }
@@ -30,9 +30,8 @@ export class CompaniesComponent implements OnInit {
 	 this.router.navigate(['/edit-company/' + id]);
   }
 
-  deleteCompany(id: number): void {
-     this.companyService.deleteCompany(id)
-     	.subscribe(result => { console.log("company was deleted: " + result)});
-     this.router.navigate(['/companies']); 
+  deleteCompany(company: Company): void {
+     this.companyService.deleteCompany(company)
+     	.subscribe(result => this.getCompanies());
   }
 }

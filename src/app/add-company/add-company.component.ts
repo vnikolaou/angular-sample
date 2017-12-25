@@ -24,7 +24,6 @@ export class AddCompanyComponent implements OnInit {
 
   insertCompany(): void { 
      this.companyService.insertCompany(this.company)
-     	.subscribe(result => { console.log("company was added: " + result)});
-	 this.router.navigate(['/companies']); 
+     	.subscribe(result => { this.router.navigate(['/companies']); });
   }
 }
