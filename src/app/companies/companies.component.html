@@ -24,6 +24,9 @@
 		  </tr>
 		</table>
 
+	  <summary *ngFor="let company of companies" [company]=company></summary>
 
+	 <app-sizer [(size)]="fontSizePx"></app-sizer>
+<div [style.font-size.px]="fontSizePx">Resizable Text</div>
 	</section>
 

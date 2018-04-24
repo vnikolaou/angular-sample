@@ -11,13 +11,14 @@ import { CompanyService } from '../company.service';
 })
 export class EditCompanyComponent implements OnInit { 
   company: Company;
+  color = 'green';
 
   constructor(private companyService: CompanyService, 
 	private router: Router, private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
-     this.company = {};
+     this.company = <Company>{};
      this.getCompany();
   }
 

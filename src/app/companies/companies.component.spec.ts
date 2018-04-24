@@ -20,6 +20,9 @@ describe('CompaniesComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+      let parent = element.all(by.tagName('app-companies')).get(0);
+      let companies = parent.all(by.tagName('summary'));
+
+      expect(companies.length).toEqual(2);
   });
 });

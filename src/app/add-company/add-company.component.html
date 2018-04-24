@@ -5,16 +5,33 @@
 	</section>
 
 	<section>
-
+		<form #companyForm="ngForm">
 		  <label for="company">Company Name:</label><br/>
-		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company">
+		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company" name="company" minlength="6" required  #inp_company="ngModel">
+
+			<div *ngIf="inp_company.invalid"
+			     class="alert">
+				  <div *ngIf="inp_company.errors.required">
+				    Company is required.
+				  </div>
+			</div>
+			<div *ngIf="inp_company.invalid && (inp_company.dirty || inp_company.touched)"
+			     class="alert">
+				  <div *ngIf="inp_company.errors.minlength">
+				    Company must be at least 6 characters long.
+				  </div>
+			</div>
 		  <br/><br/>
 		  <label for="country">Country:</label><br/>
-		  <input type="text" id="country" [(ngModel)]="company.country" placeholder="Country">
+		  <input type="text" id="country" [(ngModel)]="company.country" placeholder="Country" name="country" required #inp_country="ngModel">
+			<div [hidden]="inp_country.valid"
+			     class="alert">
+			  Country is required
+			</div>
 		  <br/><br/>
 		  <label for="contact">Contact Person:</label><br/>
-		  <input type="text" id="contact" [(ngModel)]="company.contact" placeholder="Contact">
+		  <input type="text" id="contact" [(ngModel)]="company.contact" placeholder="Contact" name="contact">
 		  <br/><br/>		  
-		  <input type="button" value="Submit" (click)="insertCompany()">&nbsp;<input type="button" value="Cancel" (click)="cancel()"/>
-
+		  <input type="button" value="Submit" (click)="insertCompany()" [disabled]="!companyForm.form.valid">&nbsp;<input type="button" value="Cancel" (click)="cancel()"/>
+		</form>
 	</section>

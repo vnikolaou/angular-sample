@@ -5,16 +5,38 @@
 	</section>
 
 	<section>
+		<form #companyForm="ngForm">
 		  <label>ID:</label>&nbsp;<span>{{company.id}}</span>
 		  <br/><br/>		
 		  <label for="company">Company Name:</label><br/>
-		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company" >
+		  <input type="text" id="company" [(ngModel)]="company.company" placeholder="Company" name="company" required minlength="6" appForbiddenName="1234567"  #inp_company="ngModel">
+			<div *ngIf="inp_company.invalid"
+			     class="alert">
+				  <div *ngIf="inp_company.errors.required">
+				    Company is required.
+				  </div>
+			</div>
+			<div *ngIf="inp_company.invalid && (inp_company.dirty || inp_company.touched)"
+			     class="alert">
+				  <div *ngIf="inp_company.errors.minlength">
+				    Company must be at least 6 characters long.
+				  </div>
+				  <div *ngIf="inp_company.errors.forbiddenName">
+				    Name cannot be 1234567.
+				  </div>
+			</div>
 		  <br/><br/>
 		  <label for="country">Country:</label><br/>
-		  <input type="text" id="country" [(ngModel)]="company.country" placeholder="Country">
+		  <input type="text" id="country" [(ngModel)]="company.country" placeholder="Country" name="country" [appHighlight]="color" defaultColor="blue" required #inp_country="ngModel">
+			<div [hidden]="inp_country.valid || inp_country.pristine"
+			     class="alert">
+			  Country is required
+			</div>
 		  <br/><br/>
 		  <label for="contact">Contact Person:</label><br/>
-		  <input type="text" id="contact" [(ngModel)]="company.contact" placeholder="Contact">
+		  <input type="text" id="contact" [(ngModel)]="company.contact" placeholder="Contact" name="contact">
 		  <br/><br/>		  
-		  <input type="button" value="Submit" (click)="updateCompany()">&nbsp;<input type="button" value="Cancel" value="Cancel" (click)="cancel()"/>
+		  <input type="button" value="Submit" (click)="updateCompany()" [disabled]="!companyForm.form.valid">&nbsp;<input type="button" value="Cancel" value="Cancel" (click)="cancel()"/>
+		</form>
+{{company.contact | repeat:2}}
 	</section>
